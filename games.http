@@ -1,0 +1,38 @@
+GET http://localhost:5148
+
+###
+GET http://localhost:5148/tasks
+
+###
+GET http://localhost:5148/tasks/1
+
+###
+POST http://localhost:5148/tasks
+Content-Type: application/json
+
+{ 
+  "userId": 30,
+  "taskTitle": "Task 30",
+  "taskDescription": "Task 3 Description",
+  "taskDate": "2025-02-20T12:58:58.2808009+03:00",
+  "status": true,
+  "taskPriority": "Low",
+  "dateCreated": "2025-02-20"
+}
+
+###
+PUT http://localhost:5148/tasks/1
+Content-Type: application/json
+
+{ 
+  "userId": 30,
+  "taskTitle": "Task updated",
+  "taskDescription": "Task description updated",
+  "taskDate": "2025-02-20T12:58:58.2808009+05:00",
+  "status": true,
+  "taskPriority": "Low",
+  "dateCreated": "2025-02-20"
+}
+
+###
+DELETE http://localhost:5148/tasks/1
