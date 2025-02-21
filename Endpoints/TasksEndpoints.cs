@@ -40,6 +40,9 @@ public static class TasksEndpoints{
 
         group.MapPost("/", (CreateTaskDto newTask) =>
         {
+            if(string.IsNullOrEmpty(newTask.TaskTitle)){
+                return Results.BadRequest("Task title  is required");
+            }
             TaskDto task = new TaskDto(
                 tasks.Count + 1,
                 newTask.userId,
@@ -52,7 +55,7 @@ public static class TasksEndpoints{
             );
             tasks.Add(task);    
         return Results.CreatedAtRoute(GetTaskEndpointName, new {id=task.taskId },new {Task = "Task Created Successfully " + task});
-        });
+        }).WithParameterValidation();//to recognise Data Validations
 
 
         //PUT request 
@@ -76,7 +79,7 @@ public static class TasksEndpoints{
 
             return Results.Ok("Task Updated Successfully");
 
-        });  
+        }).WithParameterValidation();  
 
         //DELETE request    
         group.MapDelete("/{id}", (int id)=>

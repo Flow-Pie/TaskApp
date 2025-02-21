@@ -13,8 +13,8 @@ Content-Type: application/json
 { 
   "userId": 30,
   "taskTitle": "Task 30",
-  "taskDescription": "Task 3 Description",
-  "taskDate": "2025-02-20T12:58:58.2808009+03:00",
+  "taskDescription": "Task description",
+  "taskDate": "2025-02-20T12:58:58.2808009+05:00",
   "status": true,
   "taskPriority": "Low",
   "dateCreated": "2025-02-20"

@@ -1,13 +1,16 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace TaskApp.Dtos;
 
-//CreateTaskDto should not have taskId as it is auto generated
+//Data annotations wont work without importing endpoint filters 
 public record class CreateTaskDto(  
-    int userId,
-    string TaskTitle, 
-    string TaskDescription,
-    DateTime TaskDate, 
-    bool Status,
+    [Required] [Range(1,100)] int userId,
+    [Required]string TaskTitle, 
+    [Required]string TaskDescription,
+    [Required]DateTime TaskDate, 
+    [DefaultValue(false)]bool Status,
     string TaskPriority, 
     DateOnly dateCreated
-    );
+);
 
