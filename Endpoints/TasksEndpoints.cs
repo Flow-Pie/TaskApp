@@ -12,22 +12,23 @@ public static class TasksEndpoints{
 
     const string GetTaskEndpointName = "GetTask";
 
-    internal static  readonly List <TaskDetailsDto> tasks = [];//!No need for in memory task list
+    internal static  readonly List <TaskDetailsDto> tasks = [];//!No need for in memory task.This line will be removed
 
     //this makes the endpoint available to the application ie extendable
     public static  RouteGroupBuilder MapTasksEndpoints(this WebApplication app)
     {     
         var group = app.MapGroup("/tasks");
 
-        group.MapGet("/", (TaskStoreContext db) => 
-                            db.tasks
+        group.MapGet("/", async (TaskStoreContext db) => 
+                    await   db.tasks
                             .Select(task => task.ToTaskDetailsDto())
                             .AsNoTracking()
+                            .ToListAsync()
                             );
 
-        group.MapGet("/{id}", (int id, TaskStoreContext db)=> 
+        group.MapGet("/{id}", async (int id, TaskStoreContext db)=> 
         {
-            Tasks? task  = db.tasks.Find(id);
+            Tasks? task  = await db.tasks.FindAsync(id);
             return  task is null ? Results.NotFound() : Results.Ok(task.ToTaskDetailsDto());
             
         }).WithName(GetTaskEndpointName);
@@ -35,7 +36,7 @@ public static class TasksEndpoints{
 
         //POST request
 
-        group.MapPost("/", (CreateTaskDto newTask, TaskStoreContext db) =>
+        group.MapPost("/",async (CreateTaskDto newTask, TaskStoreContext db) =>
         {
             if(string.IsNullOrEmpty(newTask.TaskTitle)){
                 return Results.BadRequest("Task title  is required");
@@ -44,7 +45,7 @@ public static class TasksEndpoints{
             Tasks task = newTask.ToEntity();            
 
             db.tasks.Add(task);   
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             //never make a mistake of returning internal entity to user instead return DTO
 
@@ -58,26 +59,26 @@ public static class TasksEndpoints{
 
         //PUT request 
         //!! not thread safe for now
-        group.MapPut("/{id}", (int id , UpdateTaskDto updatedTask, TaskStoreContext db) =>
+        group.MapPut("/{id}", async (int id , UpdateTaskDto updatedTask, TaskStoreContext db) =>
         {
-            var existingTask = db.tasks.Find(id);
+            var existingTask = await db.tasks.FindAsync(id);
 
             if(existingTask is null) return Results.NotFound("Task not found");            
             
             db.Entry(existingTask)
             .CurrentValues.SetValues(updatedTask.ToEntity(id));
 
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Results.Ok("Task Updated Successfully");
 
         }).WithParameterValidation();  
 
         //DELETE request    
-        group.MapDelete("/{id}", (int id, TaskStoreContext db) =>
+        group.MapDelete("/{id}",async (int id, TaskStoreContext db) =>
         {
-            db.tasks.Where(task => task.TaskId == id)
-            .ExecuteDelete();
+            await db.tasks.Where(task => task.TaskId == id)
+            .ExecuteDeleteAsync();
 
 
             return Results.Ok($"task id {id} Deleted Successfully");

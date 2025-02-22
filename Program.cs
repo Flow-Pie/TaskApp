@@ -11,7 +11,8 @@ builder.Services.AddSqlite<TaskStoreContext>(connString);
 var app = builder.Build();
 
 app.MapTasksEndpoints();
+app.MapUsersEndpoints();
 
-app.MigrateDb();
+await app.MigrateDbAsync();
 
 app.Run();

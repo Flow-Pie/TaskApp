@@ -11,7 +11,7 @@ public static class TaskMapping
     {
           return  new Tasks()
             {
-                TaskId = TasksEndpoints.tasks.Count +1,
+                TaskId = TasksEndpoints.tasks.Count + 2,
                 UserId = newTask.userId,
                 TaskTitle = newTask.TaskTitle,
                 TaskDescription = newTask.TaskDescription,
