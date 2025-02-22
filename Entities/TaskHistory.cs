@@ -2,6 +2,8 @@ namespace TaskApp.Entities;
 public class TaskHistory{
     public int TaskHistoryId { get; set; }
     public required int TasksId { get; set; }
+
+    public Status TaskStatus { get; set; }
     
     public enum Status {
        Pending,

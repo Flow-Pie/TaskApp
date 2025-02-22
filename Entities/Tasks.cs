@@ -13,7 +13,7 @@ public class Tasks
     public required string TaskDescription { get; set; }
     public DateTime TaskDate { get; set; }
     public bool Status { get; set; }
-    public string TaskPriority { get; set; }
+    public required string TaskPriority { get; set; }
     public DateOnly dateCreated { get; set; }
 
     public User? User { get; set; }

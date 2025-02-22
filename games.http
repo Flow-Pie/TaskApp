@@ -11,9 +11,9 @@ POST http://localhost:5148/tasks
 Content-Type: application/json
 
 { 
-  "userId": 30,
-  "taskTitle": "Task 30",
-  "taskDescription": "Task description",
+  "userId": 3,
+  "taskTitle": "Task Neww",
+  "taskDescription": "Task new descriptionn ",
   "taskDate": "2025-02-20T12:58:58.2808009+05:00",
   "status": true,
   "taskPriority": "Low",

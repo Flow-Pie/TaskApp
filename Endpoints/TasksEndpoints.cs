@@ -1,23 +1,26 @@
 namespace TaskApp.Endpoints;
-using TaskApp.Dtos;
 
+using TaskApp.Dtos;
+using TaskApp.Data;
+using TaskApp.Entities;
+using TaskApp.Mapping;
 
 public static class TasksEndpoints{
 
 
     const string GetTaskEndpointName = "GetTask";
 
-    private static  readonly List <TaskDto> tasks = [     
-        new (1,3,"Task 1","Task 1 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (2,3,"Task 2","Task 2 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (3,3,"Task 3","Task 3 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (4,3,"Task 4","Task 4 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (5,3,"Task 5","Task 5 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (6,3,"Task 6","Task 6 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (7,3,"Task 7","Task 7 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (8,3,"Task 8","Task 8 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (9,3,"Task 9","Task 9 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now)),
-        new (10,3,"Task 10","Task 10 Description",DateTime.Now,true,"High",DateOnly.FromDateTime(DateTime.Now))
+    internal static  readonly List <TaskDetailsDto> tasks = [     
+        new (1,3,"Task 1","Task 1 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (2,3,"Task 2","Task 2 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (3,3,"Task 3","Task 3 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (4,3,"Task 4","Task 4 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (5,3,"Task 5","Task 5 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (6,3,"Task 6","Task 6 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (7,3,"Task 7","Task 7 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (8,3,"Task 8","Task 8 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (9,3,"Task 9","Task 9 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1))),
+        new (10,3,"Task 10","Task 10 Description",new DateTime(2020-2-1),true,"High",DateOnly.FromDateTime(new DateTime(2020-2-1)))
     
     ];
 
@@ -28,54 +31,55 @@ public static class TasksEndpoints{
 
         group.MapGet("/", () => tasks);
 
-        group.MapGet("/{id}", (int Id)=> 
+        group.MapGet("/{id}", (int id, TaskStoreContext db)=> 
         {
-            TaskDto? task  = tasks.Find(task => task.taskId == Id);
-            return  task is null ? Results.NotFound() : Results.Ok(task);
+            Tasks? task  = db.tasks.Find(id);
+            return  task is null ? Results.NotFound() : Results.Ok(task.toTaskDetailsDto());
             
         }).WithName(GetTaskEndpointName);
 
 
         //POST request
 
-        group.MapPost("/", (CreateTaskDto newTask) =>
+        group.MapPost("/", (CreateTaskDto newTask, TaskStoreContext db) =>
         {
             if(string.IsNullOrEmpty(newTask.TaskTitle)){
                 return Results.BadRequest("Task title  is required");
             }
-            TaskDto task = new TaskDto(
-                tasks.Count + 1,
-                newTask.userId,
-                newTask.TaskTitle,
-                newTask.TaskDescription,
-                newTask.TaskDate,
-                newTask.Status,
-                newTask.TaskPriority,
-                newTask.dateCreated
-            );
-            tasks.Add(task);    
-        return Results.CreatedAtRoute(GetTaskEndpointName, new {id=task.taskId },new {Task = "Task Created Successfully " + task});
+
+            Tasks task = newTask.ToEntity();            
+
+            db.tasks.Add(task);   
+            db.SaveChanges();
+
+            //never make a mistake of returning internal entity to user instead return DTO
+
+           TaskDetailsDto taskDetailsDto =  task.toTaskDetailsDto();
+            tasks.Add(taskDetailsDto);//!! only for testing purposes ,,, atleast for now           
+
+
+        return Results.CreatedAtRoute(GetTaskEndpointName, new {id=task.TaskId },new {Task = "Task Created Successfully " + taskDetailsDto});
         }).WithParameterValidation();//to recognise Data Validations
 
 
         //PUT request 
-        //not thread safe for now
-
-        group.MapPut("/{id}", (int id , UpdateTaskDto updatedTask) =>
+        //!! not thread safe for now
+        group.MapPut("/{id}", (int id , UpdateTaskDto updatedTask, TaskStoreContext db) =>
         {
-            var index =  tasks.FindIndex(task => task.taskId == id);
+            var existingTask = db.tasks.Find(id);
 
-            if(index == -1) return Results.NotFound("Task not found");
-            tasks[index]= new TaskDto(
-                id,
-                updatedTask.userId,
-                updatedTask.TaskTitle,
-                updatedTask.TaskDescription,
-                updatedTask.TaskDate,
-                updatedTask.Status,
-                updatedTask.TaskPriority,
-                updatedTask.dateCreated
-            );
+            if(existingTask is null) return Results.NotFound("Task not found");
+            // tasks[index]= new TaskDetailsDto(
+            //     id,
+            //     updatedTask.userId,
+            //     updatedTask.TaskTitle,
+            //     updatedTask.TaskDescription,
+            //     updatedTask.TaskDate,
+            //     updatedTask.Status,
+            //     updatedTask.TaskPriority,
+            //     updatedTask.dateCreated
+            // );
+            
 
             return Results.Ok("Task Updated Successfully");
 
