@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskApp.Data;
 
@@ -10,9 +11,11 @@ using TaskApp.Data;
 namespace TaskApp.Data.Migrations
 {
     [DbContext(typeof(TaskStoreContext))]
-    partial class TaskStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250222065834_SeedEntitiesData")]
+    partial class SeedEntitiesData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
@@ -80,9 +83,9 @@ namespace TaskApp.Data.Migrations
                         new
                         {
                             ReminderId = 1,
-                            ReminderDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021),
+                            ReminderDate = new DateTime(2025, 2, 22, 9, 58, 32, 904, DateTimeKind.Local).AddTicks(1851),
                             TasksId = 1,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021)
+                            UpdatedAt = new DateTime(2025, 2, 22, 9, 58, 32, 904, DateTimeKind.Local).AddTicks(2452)
                         });
                 });
 
@@ -113,7 +116,7 @@ namespace TaskApp.Data.Migrations
                             TaskHistoryId = 1,
                             TaskStatus = 0,
                             TasksId = 1,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021)
+                            UpdatedAt = new DateTime(2025, 2, 22, 9, 58, 32, 903, DateTimeKind.Local).AddTicks(8601)
                         });
                 });
 
@@ -158,12 +161,12 @@ namespace TaskApp.Data.Migrations
                         {
                             TaskId = 1,
                             Status = true,
-                            TaskDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022),
+                            TaskDate = new DateTime(2025, 2, 22, 9, 58, 32, 862, DateTimeKind.Local).AddTicks(3524),
                             TaskDescription = "Task 1 Description",
                             TaskPriority = "High",
                             TaskTitle = "Task 1",
                             UserId = 3,
-                            dateCreated = new DateOnly(2023, 10, 1)
+                            dateCreated = new DateOnly(2025, 2, 22)
                         });
                 });
 
@@ -208,7 +211,7 @@ namespace TaskApp.Data.Migrations
                         new
                         {
                             UserId = 3,
-                            DateRegistered = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateRegistered = new DateTime(2025, 2, 22, 9, 58, 32, 903, DateTimeKind.Local).AddTicks(3754),
                             Email = "johndoe@example.com",
                             FirstName = "John",
                             LastName = "Doe",

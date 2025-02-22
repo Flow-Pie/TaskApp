@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskApp.Data;
 
@@ -10,9 +11,11 @@ using TaskApp.Data;
 namespace TaskApp.Data.Migrations
 {
     [DbContext(typeof(TaskStoreContext))]
-    partial class TaskStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250222082425_FixDynamicValues")]
+    partial class FixDynamicValues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
@@ -80,7 +83,7 @@ namespace TaskApp.Data.Migrations
                         new
                         {
                             ReminderId = 1,
-                            ReminderDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021),
+                            ReminderDate = new DateTime(2025, 2, 22, 11, 24, 23, 928, DateTimeKind.Local).AddTicks(2986),
                             TasksId = 1,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2021)
                         });
@@ -158,7 +161,7 @@ namespace TaskApp.Data.Migrations
                         {
                             TaskId = 1,
                             Status = true,
-                            TaskDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2022),
+                            TaskDate = new DateTime(2025, 2, 22, 11, 24, 23, 906, DateTimeKind.Local).AddTicks(8415),
                             TaskDescription = "Task 1 Description",
                             TaskPriority = "High",
                             TaskTitle = "Task 1",
