@@ -9,8 +9,8 @@
 Thumbs.db
 
 # Build artifacts
-[Bb]in/
-[Oo]bj/
+bin/
+obj/
 [Dd]ebug/
 [Rr]elease/
 out/

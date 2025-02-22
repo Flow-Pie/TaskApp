@@ -4,7 +4,7 @@ GET http://localhost:5148
 GET http://localhost:5148/tasks
 
 ###
-GET http://localhost:5148/tasks/1
+GET http://localhost:5148/tasks/11
 
 ###
 POST http://localhost:5148/tasks
@@ -12,8 +12,8 @@ Content-Type: application/json
 
 { 
   "userId": 3,
-  "taskTitle": "Task Neww",
-  "taskDescription": "Task new descriptionn ",
+  "taskTitle": "Task New",
+  "taskDescription": "Task new description ",
   "taskDate": "2025-02-20T12:58:58.2808009+05:00",
   "status": true,
   "taskPriority": "Low",
@@ -21,11 +21,11 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5148/tasks/1
+PUT http://localhost:5148/tasks/11
 Content-Type: application/json
 
 { 
-  "userId": 30,
+  "userId": 3,
   "taskTitle": "Task updated",
   "taskDescription": "Task description updated",
   "taskDate": "2025-02-20T12:58:58.2808009+05:00",
@@ -35,4 +35,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5148/tasks/1
+DELETE http://localhost:5148/tasks/11

@@ -22,7 +22,7 @@ public static class TaskMapping
             };
     }
 
-    public static TaskDetailsDto toTaskDetailsDto(this Tasks task) //this makes toDto and extension method and
+    public static TaskDetailsDto ToTaskDetailsDto(this Tasks task) //this makes toDto and extension method and
     //  also makes task to have the definition of toDto.
     {
         return new TaskDetailsDto(
