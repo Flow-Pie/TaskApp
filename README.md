@@ -13,7 +13,6 @@ For a direct view of the **Google Drive-hosted SVG**, use the link below:
 🔗 **[View on Google Drive](https://drive.google.com/file/d/1mD-EZfjR9wPiEmLjWbqSqTHGbNvfjXH9/view?usp=sharing)**
 
 ## 🖼️ Embedded Diagram (GitHub)
-To embed the diagram directly in this README, use:
 
 ![Diagram](https://raw.githubusercontent.com/Flow-Pie/TaskApp/master/diagram.svg)
 
