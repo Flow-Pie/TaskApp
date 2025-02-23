@@ -12,12 +12,11 @@ public static class UsersEndpoints
             var group = app.MapGroup("/users");
 
             group.MapGet("/", async (TaskStoreContext db) => 
-            await   db.users
-                    .Select(user => user.ToUserDetailsDto())
-                    .AsNoTracking()
-                    .ToListAsync()                
-                    );
-
-            return group;            
+            {
+                var users = await db.users.ToListAsync();  
+                Console.WriteLine($"Found {users.Count} users");
+                return users.Select(user => user.ToUserDetailsDto()).ToList();
+            });
+        return group;    
     }
 }
