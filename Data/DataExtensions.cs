@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
+
 namespace TaskApp.Data;
 
 public static class DataExtensions

@@ -4,7 +4,6 @@ using TaskApp.Dtos;
 using TaskApp.Data;
 using TaskApp.Entities;
 using TaskApp.Mapping;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 public static class TasksEndpoints{
@@ -12,7 +11,7 @@ public static class TasksEndpoints{
 
     const string GetTaskEndpointName = "GetTask";
 
-    internal static  readonly List <TaskDetailsDto> tasks = [];//!No need for in memory task.This line will be removed
+    //internal static  readonly List <TaskDetailsDto> tasks = [];//!No need for in memory task.This line will be removed
 
     //this makes the endpoint available to the application ie extendable
     public static  RouteGroupBuilder MapTasksEndpoints(this WebApplication app)
@@ -50,7 +49,7 @@ public static class TasksEndpoints{
             //never make a mistake of returning internal entity to user instead return DTO
 
            TaskDetailsDto taskDetailsDto =  task.ToTaskDetailsDto();
-            tasks.Add(taskDetailsDto);//!! only for testing purposes ,,, atleast for now           
+           // tasks.Add(taskDetailsDto);//!! only for testing purposes ,,, atleast for now           
 
 
         return Results.CreatedAtRoute(GetTaskEndpointName, new {id=task.TaskId },new {Task = "Task Created Successfully " + taskDetailsDto});

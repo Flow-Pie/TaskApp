@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaskApp.Entities;
 
@@ -7,7 +8,8 @@ public class Tasks
     
     
     [Key]
-    public int TaskId { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
+    public int  TaskId { get; set; }
     public required int UserId { get; set; }
     public required string TaskTitle { get; set; }
     public required string TaskDescription { get; set; }

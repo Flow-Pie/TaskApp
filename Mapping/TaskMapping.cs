@@ -3,6 +3,7 @@ using TaskApp.Dtos;
 using TaskApp.Endpoints;
 
 
+
 namespace TaskApp.Mapping;
 
 public static class TaskMapping
@@ -10,8 +11,7 @@ public static class TaskMapping
     public static Tasks ToEntity(this CreateTaskDto newTask )
     {
           return  new Tasks()
-            {
-                TaskId = TasksEndpoints.tasks.Count + 2,
+            {               
                 UserId = newTask.userId,
                 TaskTitle = newTask.TaskTitle,
                 TaskDescription = newTask.TaskDescription,
