@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 namespace TaskApp.Dtos;
 
 public record class UpdateTaskDto(   
-    [Required] [Range(1,100)] int userId,
+    [Required] [Range(-100,100)] int UserId,//-indentifiers are just for seed data validations
     [Required]string TaskTitle, 
     [Required]string TaskDescription,
     [Required]DateTime TaskDate, 
     [DefaultValue(false)]bool Status,
     string TaskPriority, 
-    DateOnly dateCreated
+    DateOnly DateCreated
     );
 
 

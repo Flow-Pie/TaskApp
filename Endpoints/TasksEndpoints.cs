@@ -19,7 +19,7 @@ public static class TasksEndpoints{
         var group = app.MapGroup("/tasks");
 
         group.MapGet("/", async (TaskStoreContext db) => 
-                    await   db.tasks
+                    await   db.Tasks
                             .Select(task => task.ToTaskDetailsDto())
                             .AsNoTracking()
                             .ToListAsync()
@@ -27,7 +27,7 @@ public static class TasksEndpoints{
 
         group.MapGet("/{id}", async (int id, TaskStoreContext db)=> 
         {
-            Tasks? task  = await db.tasks.FindAsync(id);
+            Tasks? task  = await db.Tasks.FindAsync(id);
             return  task is null ? Results.NotFound() : Results.Ok(task.ToTaskDetailsDto());
             
         }).WithName(GetTaskEndpointName);
@@ -43,7 +43,7 @@ public static class TasksEndpoints{
 
             Tasks task = newTask.ToEntity();            
 
-            db.tasks.Add(task);   
+            db.Tasks.Add(task);   
             await db.SaveChangesAsync();
 
             //never make a mistake of returning internal entity to user instead return DTO
@@ -60,7 +60,7 @@ public static class TasksEndpoints{
         //!! not thread safe for now
         group.MapPut("/{id}", async (int id , UpdateTaskDto updatedTask, TaskStoreContext db) =>
         {
-            var existingTask = await db.tasks.FindAsync(id);
+            var existingTask = await db.Tasks.FindAsync(id);
 
             if(existingTask is null) return Results.NotFound("Task not found");            
             
@@ -76,7 +76,7 @@ public static class TasksEndpoints{
         //DELETE request    
         group.MapDelete("/{id}",async (int id, TaskStoreContext db) =>
         {
-            await db.tasks.Where(task => task.TaskId == id)
+            await db.Tasks.Where(task => task.TaskId == id)
             .ExecuteDeleteAsync();
 
 

@@ -9,11 +9,11 @@ namespace TaskApp.Data;
 //DbContext class are used to save instances of Entity classes
 public class TaskStoreContext(DbContextOptions<TaskStoreContext> options ) : DbContext(options)
 {
-    public DbSet<Tasks> tasks => Set<Tasks>();
-    public DbSet<User> users => Set<User>();
-    public DbSet<TaskHistory> taskHistories => Set<TaskHistory>();
-    public DbSet<Reminder> reminders => Set<Reminder>();
-    public DbSet<Calendar> calendars => Set<Calendar>();
+    public DbSet<Tasks> Tasks => Set<Tasks>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<TaskHistory> TaskHistories => Set<TaskHistory>();
+    public DbSet<Reminder> Reminders => Set<Reminder>();
+    public DbSet<Calendar> Calendars => Set<Calendar>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

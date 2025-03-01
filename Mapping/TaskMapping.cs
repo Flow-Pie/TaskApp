@@ -8,6 +8,7 @@ namespace TaskApp.Mapping;
 
 public static class TaskMapping
 {
+    //To Entity convert tasks to entity for insertion to db
     public static Tasks ToEntity(this CreateTaskDto newTask )
     {
           return  new Tasks()
@@ -39,6 +40,7 @@ public static class TaskMapping
         );
     }
 
+    //overriden to entity method
         public static Tasks ToEntity(this UpdateTaskDto newTask, int id )
         {
             return  new Tasks()
