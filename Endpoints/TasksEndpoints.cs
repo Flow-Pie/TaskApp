@@ -11,10 +11,8 @@ public static class TasksEndpoints{
 
     const string GetTaskEndpointName = "GetTask";
 
-    //internal static  readonly List <TaskDetailsDto> tasks = [];//!No need for in memory task.This line will be removed
-
     //this makes the endpoint available to the application ie extendable
-    public static  RouteGroupBuilder MapTasksEndpoints(this WebApplication app)
+    public static  RouteGroupBuilder MapTasksEndpoints (this WebApplication app)
     {     
         var group = app.MapGroup("/tasks");
 
@@ -46,18 +44,17 @@ public static class TasksEndpoints{
             db.Tasks.Add(task);   
             await db.SaveChangesAsync();
 
-            //never make a mistake of returning internal entity to user instead return DTO
+            //returning Dto instead of internal entity to user
 
            TaskDetailsDto taskDetailsDto =  task.ToTaskDetailsDto();
-           // tasks.Add(taskDetailsDto);//!! only for testing purposes ,,, atleast for now           
 
 
         return Results.CreatedAtRoute(GetTaskEndpointName, new {id=task.TaskId },new {Task = "Task Created Successfully " + taskDetailsDto});
-        }).WithParameterValidation();//to recognise Data Validations
+        }).WithParameterValidation();//to recognise Data Validations from Create Dto
 
 
         //PUT request 
-        //!! not thread safe for now
+        //!!not fully thread safe for now
         group.MapPut("/{id}", async (int id , UpdateTaskDto updatedTask, TaskStoreContext db) =>
         {
             var existingTask = await db.Tasks.FindAsync(id);

@@ -13,13 +13,13 @@ public static class TaskMapping
     {
           return  new Tasks()
             {               
-                UserId = newTask.userId,
+                UserId = newTask.UserId,
                 TaskTitle = newTask.TaskTitle,
                 TaskDescription = newTask.TaskDescription,
                 TaskDate = newTask.TaskDate,
                 Status = newTask.Status,
                 TaskPriority = newTask.TaskPriority,
-                dateCreated = newTask.dateCreated
+                dateCreated = newTask.DateCreated
             };
     }
 
@@ -46,13 +46,13 @@ public static class TaskMapping
             return  new Tasks()
                 {
                     TaskId = id,
-                    UserId = newTask.userId,
+                    UserId = newTask.UserId,
                     TaskTitle = newTask.TaskTitle,
                     TaskDescription = newTask.TaskDescription,
                     TaskDate = newTask.TaskDate,
                     Status = newTask.Status,
                     TaskPriority = newTask.TaskPriority,
-                    dateCreated = newTask.dateCreated
+                    dateCreated = newTask.DateCreated
                 };
         }
 }

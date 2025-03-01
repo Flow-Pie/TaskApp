@@ -9,20 +9,21 @@ namespace TaskApp.Data;
 //DbContext class are used to save instances of Entity classes
 public class TaskStoreContext(DbContextOptions<TaskStoreContext> options ) : DbContext(options)
 {
-    public DbSet<Tasks> Tasks => Set<Tasks>();
-    public DbSet<User> Users => Set<User>();
-    public DbSet<TaskHistory> TaskHistories => Set<TaskHistory>();
-    public DbSet<Reminder> Reminders => Set<Reminder>();
-    public DbSet<Calendar> Calendars => Set<Calendar>();
+    //setter not required though
+    public DbSet<Tasks> Tasks { get; set; }
+    public DbSet<User> Users {get; set;}
+    public DbSet<TaskHistory> TaskHistories {get; set;}
+    public DbSet<Reminder> Reminders {get; set;}
+    public DbSet<Calendar> Calendars {get; set;}
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlite("Data Source=TaskApp.db",
-                options => options.MigrationsAssembly("TaskApp"));
-        }
-    }
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     if (!optionsBuilder.IsConfigured)
+    //     {
+    //         optionsBuilder.UseSqlite("Data Source=TaskApp.db",
+    //             options => options.MigrationsAssembly("TaskApp"));
+    //     }
+    // }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

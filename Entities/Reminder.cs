@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TaskApp.Entities;
 
 public class Reminder{
-    public int ReminderId { get; set; }
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)] public int ReminderId { get; set; }
     public required int TasksId { get; set; }
     
     public DateTime ReminderDate { get; set; }
