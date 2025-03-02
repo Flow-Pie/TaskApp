@@ -1,2 +1,36 @@
+GET http://localhost:5148/users
+
 ###
-GET http://localhost:5148/users/
+GET http://localhost:5148/users/1
+
+###
+POST http://localhost:5148/users
+Content-Type: application/json
+
+{
+  "username": "John Maina",
+  "password": "passwordMaina",
+  "email": "johndoe@gmail.com",
+  "firstName": "John",
+  "lastName": "Maina",
+  "role": "Admin",
+  "dateRegistered": "2025-11-01T00:00:00"
+}
+
+###
+PUT http://localhost:5148/users/2
+Content-Type: application/json
+
+ {
+    "userId": -3,
+    "username": "Joseph Waithaka",
+    "password": "hashedpass123",
+    "email": "Joseph@example.com",
+    "firstName": "Joseph",
+    "lastName": "Waithaka",
+    "role": "User",
+    "dateRegistered": "2025-11-01T00:00:00"
+  }
+
+###
+DELETE http://localhost:5148/users/9

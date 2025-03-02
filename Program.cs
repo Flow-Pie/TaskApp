@@ -14,7 +14,7 @@ builder.Services.AddSqlite<TaskStoreContext>(connString);
 var app = builder.Build();
 
 app.MapTasksEndpoints();
-//app.MapUsersEndpoints();
+app.MapUsersEndpoints();
 
 app.MapGet("/", () => "Hello World!");
 

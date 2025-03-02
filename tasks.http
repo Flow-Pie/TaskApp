@@ -1,6 +1,3 @@
-GET http://localhost:5148
-
-###
 GET http://localhost:5148/tasks
 
 ###
@@ -11,13 +8,13 @@ POST http://localhost:5148/tasks
 Content-Type: application/json
 
 { 
-  "userId": -3,
-  "taskTitle": "Washing Dishes",
-  "taskDescription": "The dishes must be washed ",
-  "taskDate": "2025-02-20T12:58:58.2808009+05:00",
+  "userId": 1,
+  "taskTitle": "Washing Dishes updated",
+  "taskDescription": "The dishes must be today itself ",
+  "taskDate": "2025-04-28T12:58:58.2808009+05:00",
   "status": false,
   "taskPriority": "High",
-  "dateCreated": "2025-02-20"
+  "dateCreated": "2025-02-25"
 }
 
 ###
@@ -35,4 +32,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5148/tasks/5
+DELETE http://localhost:5148/tasks/2

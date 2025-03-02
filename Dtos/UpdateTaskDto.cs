@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 namespace TaskApp.Dtos;
 
-public record class UpdateTaskDto(   
+public record UpdateTaskDto(   
     [Required] [Range(-100,100)] int UserId,//-indentifiers are just for seed data validations
     [Required]string TaskTitle, 
     [Required]string TaskDescription,

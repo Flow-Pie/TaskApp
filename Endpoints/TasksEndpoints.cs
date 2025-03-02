@@ -8,25 +8,33 @@ using Microsoft.EntityFrameworkCore;
 
 public static class TasksEndpoints{
 
-
-    const string GetTaskEndpointName = "GetTask";
-
     //this makes the endpoint available to the application ie extendable
     public static  RouteGroupBuilder MapTasksEndpoints (this WebApplication app)
     {     
-        var group = app.MapGroup("/tasks");
+        const string GetTaskEndpointName = "GetTask";
+        var group = app.MapGroup("/tasks").WithParameterValidation();//to recognise Data Validations from Create Dto
 
         group.MapGet("/", async (TaskStoreContext db) => 
-                    await   db.Tasks
+        {
+                    try{
+                        return Results.Ok(await  db.Tasks
                             .Select(task => task.ToTaskDetailsDto())
                             .AsNoTracking()
-                            .ToListAsync()
-                            );
+                            .ToListAsync());
+                    }catch(Exception ex){
+                        return Results.Problem($"An error {ex.Message} occurred while fetching tasks.", statusCode: 500);
+                    }
+        });
+         
 
         group.MapGet("/{id}", async (int id, TaskStoreContext db)=> 
         {
-            Tasks? task  = await db.Tasks.FindAsync(id);
-            return  task is null ? Results.NotFound() : Results.Ok(task.ToTaskDetailsDto());
+            try{
+                Tasks? task  = await db.Tasks.FindAsync(id);
+                return  task is null ? Results.NotFound($"Task id {id} not Found") : Results.Ok(task.ToTaskDetailsDto());
+            }catch(Exception ex){
+                return Results.Problem($"An error {ex.Message} occurred while fetching task.", statusCode: 500);
+            }
             
         }).WithName(GetTaskEndpointName);
 
@@ -35,49 +43,49 @@ public static class TasksEndpoints{
 
         group.MapPost("/",async (CreateTaskDto newTask, TaskStoreContext db) =>
         {
-            if(string.IsNullOrEmpty(newTask.TaskTitle)){
-                return Results.BadRequest("Task title  is required");
+            try{
+                if(string.IsNullOrEmpty(newTask.TaskTitle)) return Results.BadRequest("Task title  is required");                                  
+
+                db.Tasks.Add(newTask.ToEntity());   
+                await db.SaveChangesAsync();
+                //returning Dto instead of internal entity to user           
+                return Results.CreatedAtRoute(GetTaskEndpointName, new {id=newTask.ToEntity().TaskId },new {Task = "Task Created Successfully " + newTask.ToEntity().ToTaskDetailsDto()});
+            }catch(Exception ex){
+                return Results.Problem($"An error {ex.Message} occurred while creating task.", statusCode: 500);
             }
-
-            Tasks task = newTask.ToEntity();            
-
-            db.Tasks.Add(task);   
-            await db.SaveChangesAsync();
-
-            //returning Dto instead of internal entity to user
-
-           TaskDetailsDto taskDetailsDto =  task.ToTaskDetailsDto();
-
-
-        return Results.CreatedAtRoute(GetTaskEndpointName, new {id=task.TaskId },new {Task = "Task Created Successfully " + taskDetailsDto});
-        }).WithParameterValidation();//to recognise Data Validations from Create Dto
+        });
 
 
         //PUT request 
         //!!not fully thread safe for now
         group.MapPut("/{id}", async (int id , UpdateTaskDto updatedTask, TaskStoreContext db) =>
         {
-            var existingTask = await db.Tasks.FindAsync(id);
+            try{
+                var existingTask = await db.Tasks.FindAsync(id);
+                if(existingTask is null) return Results.NotFound("Task not found");            
+                
+                db.Entry(existingTask)
+                .CurrentValues.SetValues(updatedTask.ToEntity(id));
 
-            if(existingTask is null) return Results.NotFound("Task not found");            
-            
-            db.Entry(existingTask)
-            .CurrentValues.SetValues(updatedTask.ToEntity(id));
+                await db.SaveChangesAsync();
 
-            await db.SaveChangesAsync();
+                return Results.Ok("Task Updated Successfully");
+            }catch(Exception ex){
+                return Results.Problem($"An error {ex.Message} occurred while updating task.", statusCode: 500);
+            }
 
-            return Results.Ok("Task Updated Successfully");
-
-        }).WithParameterValidation();  
+        });  
 
         //DELETE request    
         group.MapDelete("/{id}",async (int id, TaskStoreContext db) =>
         {
-            await db.Tasks.Where(task => task.TaskId == id)
-            .ExecuteDeleteAsync();
+            try{
+                await db.Tasks.Where(task => task.TaskId == id).ExecuteDeleteAsync();
 
-
-            return Results.Ok($"task id {id} Deleted Successfully");
+                return Results.Ok($"task id {id} Deleted Successfully");
+            }catch(Exception ex){
+                return Results.Problem($"An error {ex.Message} occurred while deleting task.", statusCode: 500);
+            }
         });
 
         return group;

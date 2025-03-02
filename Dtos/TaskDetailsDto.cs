@@ -1,6 +1,6 @@
 namespace TaskApp.Dtos;
 
-public  record class TaskDetailsDto(
+public  record TaskDetailsDto(
     int TaskId, 
     int UserId,
     string TaskTitle, 

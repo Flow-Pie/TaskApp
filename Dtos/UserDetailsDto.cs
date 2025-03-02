@@ -1,5 +1,5 @@
 namespace TaskApp.Dtos;
-public record class UserDetailsDto(
+public record UserDetailsDto(
     int UserId,
     string Username,
     string Password,
